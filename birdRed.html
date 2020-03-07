@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>鹦鹉变成红色</title>
+    <script>
+    	function loadImg() {
+           let img = new Image
+           img.src = "./bird.jpg"
+           
+           img.onload = function () {
+           	drawCanvas(img)
+           }
+    	}
+
+    	function drawCanvas(img) {
+          let canvas = document.getElementById('canvas')
+          canvas.width = img.width
+          canvas.height = img.height
+          let context = canvas.getContext('2d')
+
+          context.drawImage(img, 0, 0);
+          
+         //context.clearRect(200,432, 1110, 670);
+          let sectionImg = context.getImageData(200, 432, 1110, 75,	0);
+          let imgData = sectionImg.data;
+
+          for(let i =1; i < imgData.length;i += 4) {
+          	if (imgData[i-1] < imgData[i]) {
+                 let temp = imgData[i-1]
+                 imgData[i - 1] = imgData[i]
+                 imgData[i] = temp
+          	}
+          	
+          }
+
+          context.putImageData(sectionImg, 200, 432); // 复制代码
+
+    	}
+    	document.addEventListener('DOMContentLoaded', function(){
+          loadImg()
+    	})
+    	
+    </script>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+  </body>
+</html>
